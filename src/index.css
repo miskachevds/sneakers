@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: rgb(21, 95, 114);
+  background-color: lightblue
 }
 
 /* code {
@@ -53,6 +53,10 @@ header {
 .headerRight li {
   list-style-type: none;
   margin: 30px;
+}
+.headerRight span{
+  margin-left: 20px;
+  cursor: pointer;
 }
 
 h3,

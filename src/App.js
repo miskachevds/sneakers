@@ -2,6 +2,8 @@ import './index.css'
 import Card from './components/card/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
+import React from 'react';
+import { useState } from 'react';
 
 const arr = [
   {
@@ -19,11 +21,18 @@ const arr = [
     price: "8 490",
     imageUrl: "img/sneakers/3.jpg",
   },
+  {
+    title: "Мужские кроссовки Nike Blazer Mid Suede",
+    price: "8 490",
+    imageUrl: "img/sneakers/3.jpg",
+  },
+  
 ]
 
 function App() {
   return (
     <div className="wrapper">
+
       <Drawer />
       <Header />
       <div className="content">
@@ -42,6 +51,8 @@ function App() {
               title={obj.title}
               price={obj.price}
               imageUrl={obj.imageUrl}
+              onFavorite ={() => console.log('Добавили в закладки')} 
+              onPlus ={() => console.log('Нажали плюс')}
             />
           ))}
 
