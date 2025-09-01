@@ -1,37 +1,24 @@
-function Drawer(props) {
+function Drawer({onClose}) {
     return (
         <div className="overlay">
             <div className="drawer">
-                <h2>Корзина  
+                <h2>Корзина
                     <img onClick={props.onClose} className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="Close" /> </h2>
 
                 <div className="cartItem">
-                    <img width='133px' height='112px' src="img/sneakers/1.jpg" alt="sneakers" />
-                    <div>
-                        <p>Мужские кроссовки Nike Blazer Mid Suede</p>
-                        <b>12 999</b>
-                    </div>
-                    <img className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="remove" />
+                    {
+                        props.items.map((obj) => (
+                            <div className="cartItem">
+                                <img width='133px' height='112px' src="img/sneakers/1.jpg" alt="sneakers" />
+                                <div>
+                                    <p>Мужские кроссовки Nike Blazer Mid Suede</p>
+                                    <b>12 999</b>
+                                </div>
+                                <img className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="remove" />
+                            </div>
+                        ))
+                    }
                 </div>
-
-                <div className="cartItem">
-                    <img width='133px' height='112px' src="img/sneakers/1.jpg" alt="sneakers" />
-                    <div>
-                        <p>Мужские кроссовки Nike Blazer Mid Suede</p>
-                        <b>12 999</b>
-                    </div>
-                    <img className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="remove" />
-                </div>
-
-                <div className="cartItem">
-                    <img width='133px' height='112px' src="img/sneakers/1.jpg" alt="sneakers" />
-                    <div>
-                        <p>Мужские кроссовки Nike Blazer Mid Suede</p>
-                        <b>12 999</b>
-                    </div>
-                    <img className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="remove" />
-                </div>
-
 
                 <div className="items">
                     <ul className='cardTotalBlock'>
@@ -56,3 +43,4 @@ function Drawer(props) {
 }
 
 export default Drawer;
+

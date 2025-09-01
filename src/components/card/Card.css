@@ -47,6 +47,7 @@ button {
 .sneakers {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around
 }
 
 .content-input{
