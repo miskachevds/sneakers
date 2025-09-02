@@ -1,18 +1,28 @@
-function Drawer({onClose}) {
+function Drawer({ onClose, items = [] }) {
     return (
         <div className="overlay">
             <div className="drawer">
                 <h2>Корзина
-                    <img onClick={props.onClose} className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="Close" /> </h2>
+                    <img onClick={onClose} className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="Close" /> </h2>
 
                 <div className="cartItem">
                     {
-                        props.items.map((obj) => (
+                        items.map((obj) => (
                             <div className="cartItem">
-                                <img width='133px' height='112px' src="img/sneakers/1.jpg" alt="sneakers" />
+
+                                <div
+                                    style={{
+                                        backgroundImage: `url(${obj.imageUrl})`,
+                                        width: '133px',
+                                        height: '112px',
+                                        backgroundSize: 'cover',
+                                        backgroundPosition: 'center',
+                                    }}
+                                ></div>
+
                                 <div>
-                                    <p>Мужские кроссовки Nike Blazer Mid Suede</p>
-                                    <b>12 999</b>
+                                    <p>{obj.title}</p>
+                                    <b>{obj.price}</b>
                                 </div>
                                 <img className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="remove" />
                             </div>
@@ -35,6 +45,7 @@ function Drawer({onClose}) {
                     </ul>
                     <button className='btn-drawer'>Оформить заказ <img width='15px' height='15px' src="/img/arrow.svg" alt="arrow" /></button>
                 </div>
+
 
             </div>
         </div>

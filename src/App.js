@@ -61,9 +61,14 @@ function App() {
   })
   },[]);
 
+  const onAddToCart = (obj) =>{
+    setCardItems([...cardItems, obj]);
+  }
+  console.log(cardItems)
+
   return (
     <div className="wrapper">
-      {cardOpened ? <Drawer onClose={() => setCardOpened(false)} /> : null}
+      {cardOpened ? <Drawer items = {cardItems} onClose={() => setCardOpened(false)} /> : null}
       <Header onClickCard={() => setCardOpened(true)} />
       <div className="content">
 
@@ -82,7 +87,7 @@ function App() {
               price={obj.price}
               imageUrl={obj.imageUrl}
               onFavorite={() => console.log('Добавили в закладки')}
-              onPlus={() => console.log('Нажали плюс')}
+              onPlus={(obj)=> onAddToCart(obj)}
             />
           ))}
 
