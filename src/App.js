@@ -5,52 +5,53 @@ import Drawer from './components/Drawer';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 
-const arr = [
-  // {
-  //   "title": "Мужские кроссовки Nike Blazer Mid Suede",
-  //   "price": 12999,
-  //   "imageUrl": "img/sneakers/1.jpg"
-  // },
-  // {
-  //   "title": "Мужские кроссовки Nike Air Max 270",
-  //   "price": 15600,
-  //   "imageUrl": "img/sneakers/2.jpg"
-  // },
-  // {
-  //   "title": "Мужские кроссовки Nike Blazer Mid Suede",
-  //   "price": 8490,
-  //   "imageUrl": "img/sneakers/3.jpg"
-  // },
-  // {
-  //   "title": "Кеды Nike SB Dunk Low Pro ISO",
-  //   "price": 5499,
-  //   "imageUrl": "img/sneakers/4.jpg"
-  // },
-  // {
-  //   "title": "Кроссовки AIR MAX",
-  //   "price": 13520,
-  //   "imageUrl": "img/sneakers/5.jpg"
-  // },
-  // {
-  //   "title": "Кроссовки Revolution 7",
-  //   "price": 7490,
-  //   "imageUrl": "img/sneakers/6.jpg"
-  // },
-  // {
-  //   "title": "Кроссовки Defyallday",
-  //   "price": 5073,
-  //   "imageUrl": "img/sneakers/7.jpg"
-  // },
-  // {
-  //   "title": "Кроссовки Nike Pegas",
-  //   "price": 9490,
-  //   "imageUrl": "img/sneakers/8.jpg"
-  // }
-]
+// const arr = [
+//   {
+//     "title": "Мужские кроссовки Nike Blazer Mid Suede",
+//     "price": 12999,
+//     "imageUrl": "img/sneakers/1.jpg"
+//   },
+//   {
+//     "title": "Мужские кроссовки Nike Air Max 270",
+//     "price": 15600,
+//     "imageUrl": "img/sneakers/2.jpg"
+//   },
+//   {
+//     "title": "Мужские кроссовки Nike Blazer Mid Suede",
+//     "price": 8490,
+//     "imageUrl": "img/sneakers/3.jpg"
+//   },
+//   {
+//     "title": "Кеды Nike SB Dunk Low Pro ISO",
+//     "price": 5499,
+//     "imageUrl": "img/sneakers/4.jpg"
+//   },
+//   {
+//     "title": "Кроссовки AIR MAX",
+//     "price": 13520,
+//     "imageUrl": "img/sneakers/5.jpg"
+//   },
+//   {
+//     "title": "Кроссовки Revolution 7",
+//     "price": 7490,
+//     "imageUrl": "img/sneakers/6.jpg"
+//   },
+//   {
+//     "title": "Кроссовки Defyallday",
+//     "price": 5073,
+//     "imageUrl": "img/sneakers/7.jpg"
+//   },
+//   {
+//     "title": "Кроссовки Nike Pegas",
+//     "price": 9490,
+//     "imageUrl": "img/sneakers/8.jpg"
+//   }
+// ]
 
 function App() {
   const[items,setItems] = useState([])//для загрузки карточек
   const[cardItems,setCardItems] = useState([])//карты доб в корзине
+  const[searchValue,setSearchValue] = useState('')//поиск
   const [cardOpened, setCardOpened] = useState(false)//открытие и закрытие корзины
 
   useEffect(() => {
@@ -64,7 +65,10 @@ function App() {
   const onAddToCart = (obj) =>{
     setCardItems([...cardItems, obj]);
   }
-  console.log(cardItems)
+ 
+  const onChangeSearchInput = (event) =>{
+    setSearchValue(event.target.value)
+  }
 
   return (
     <div className="wrapper">
@@ -73,19 +77,21 @@ function App() {
       <div className="content">
 
         <div className="content-input">
-          <h1>Все кроссовки</h1>
+          <h1>{searchValue ? `Поиск по запросу: "${searchValue}"` : "Все кроссовки"}</h1>
           <div className="search-block">
             <img width="20px" src="/img/search.svg" alt="Search" />
-            <input placeholder='Поиск...' />
+            {searchValue  && <img onClick={()=>setSearchValue('')} className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="Clear"/> }
+            <input onChange={onChangeSearchInput} value={searchValue} placeholder='Поиск...' />
           </div>
         </div>
 
         <div className="sneakers">
-          {items.map((obj) => (
+          {items.filter(item=>item.title.toLowerCase().includes(searchValue)).map((item,index) => (
             <Card
-              title={obj.title}
-              price={obj.price}
-              imageUrl={obj.imageUrl}
+              key={index}
+              title={item.title}
+              price={item.price}
+              imageUrl={item.imageUrl}
               onFavorite={() => console.log('Добавили в закладки')}
               onPlus={(obj)=> onAddToCart(obj)}
             />
