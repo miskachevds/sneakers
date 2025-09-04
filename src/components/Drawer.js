@@ -5,7 +5,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
                 <h2>Корзина
                     <img onClick={onClose} className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="Close" /> </h2>
 
-                <div className="cartItem">
+                <div className="cartItems">
                     {
                         items.map((obj) => (
                             <div className="cartItem">
