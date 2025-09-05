@@ -53,6 +53,7 @@ import axios from 'axios'
 function App() {
   const[items,setItems] = useState([])//для загрузки карточек
   const[cardItems,setCardItems] = useState([])//карты доб в корзине
+  const[favorites,setFavorites] = useState([])//карты доб в корзине
   const[searchValue,setSearchValue] = useState('')//поиск
   const [cardOpened, setCardOpened] = useState(false)//открытие и закрытие корзины
 
@@ -81,6 +82,11 @@ function App() {
     axios.delete(`https://68b190d7a860fe41fd5ee2d7.mockapi.io/items/${id}`);
     setCardItems((prev)=>prev.filter(item => item.id !== id) );
   }
+
+  const onAddToFavorite = (obj) =>{
+    axios.post('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items', obj);
+    setFavorites((prev)=>[...prev, obj] );
+  }
  
   const onChangeSearchInput = (event) =>{
     setSearchValue(event.target.value)
@@ -108,7 +114,7 @@ function App() {
               title={item.title}
               price={item.price}
               imageUrl={item.imageUrl}
-              onFavorite={() => console.log('Добавили в закладки')}
+              onFavorite={onAddToFavorite}
               onPlus={(obj)=> onAddToCart(obj)}
             />
           ))}
