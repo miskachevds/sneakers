@@ -1,10 +1,12 @@
 import './index.css'
-import Card from './components/card/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
 import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from 'axios'
+import { Routes, Route } from 'react-router-dom';
+import Home from './pages/Home';
+import Favorites from './pages/Favorites';
 
 
 // const arr = [
@@ -51,77 +53,62 @@ import axios from 'axios'
 // ]
 
 function App() {
-  const[items,setItems] = useState([])//для загрузки карточек
-  const[cardItems,setCardItems] = useState([])//карты доб в корзине
-  const[favorites,setFavorites] = useState([])//карты доб в корзине
-  const[searchValue,setSearchValue] = useState('')//поиск
+  const [items, setItems] = useState([])//для загрузки карточек
+  const [cardItems, setCardItems] = useState([])//карты доб в корзине
+  const [favorites, setFavorites] = useState([])//карты доб в корзине
+  const [searchValue, setSearchValue] = useState('')//поиск
   const [cardOpened, setCardOpened] = useState(false)//открытие и закрытие корзины
 
   useEffect(() => {
-  // fetch('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then((res)=> {
-  //   return res.json();
-  // }).then((json)=>{
-  //   setItems(json);
-  // })
+    // fetch('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then((res)=> {
+    //   return res.json();
+    // }).then((json)=>{
+    //   setItems(json);
+    // })
 
-  axios.get('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then(response=>{
-    setItems(response.data);
-  })
-  axios.get('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then(response=>{
-    setCardItems(response.data);
-  })
+    axios.get('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then(response => {
+      setItems(response.data);
+    })
+    axios.get('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then(response => {
+      setCardItems(response.data);
+    })
 
-  },[]);
+  }, []);
 
-  const onAddToCart = (obj) =>{
+  const onAddToCart = (obj) => {
     axios.post('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items', obj);
-    setCardItems((prev)=>[...prev, obj] );
+    setCardItems((prev) => [...prev, obj]);
   }
 
-  const onRemoveItem = (id) =>{
+  const onRemoveItem = (id) => {
     axios.delete(`https://68b190d7a860fe41fd5ee2d7.mockapi.io/items/${id}`);
-    setCardItems((prev)=>prev.filter(item => item.id !== id) );
+    setCardItems((prev) => prev.filter(item => item.id !== id));
   }
 
-  const onAddToFavorite = (obj) =>{
+  const onAddToFavorite = (obj) => {
     axios.post('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items', obj);
-    setFavorites((prev)=>[...prev, obj] );
+    setFavorites((prev) => [...prev, obj]);
   }
- 
-  const onChangeSearchInput = (event) =>{
+
+  const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value)
   }
 
   return (
     <div className="wrapper">
-      {cardOpened && <Drawer items = {cardItems} onClose={() => setCardOpened(false)} onRemove={onRemoveItem} />}
+      {cardOpened && <Drawer items={cardItems} onClose={() => setCardOpened(false)} onRemove={onRemoveItem} />}
       <Header onClickCard={() => setCardOpened(true)} />
-      <div className="content">
+      <Routes>
+        <Route path='/' element={<Home items={items}
+          searchValue={searchValue} setSearchValue={setSearchValue} 
+          onChangeSearchInput={onChangeSearchInput} 
+          onAddToFavorite={onAddToFavorite}
+          onAddToCart={onAddToCart}
+          />} />
+        <Route path='/favorites' element={<Favorites />} />
+      </Routes>
 
-        <div className="content-input">
-          <h1>{searchValue ? `Поиск по запросу: "${searchValue}"` : "Все кроссовки"}</h1>
-          <div className="search-block">
-            <img width="20px" src="/img/search.svg" alt="Search" />
-            {searchValue  && <img onClick={()=>setSearchValue('')} className='removeBtn' width='13px' src="/img/btn-remove.svg" alt="Clear"/> }
-            <input onChange={onChangeSearchInput} value={searchValue} placeholder='Поиск...' />
-          </div>
-        </div>
 
-        <div className="sneakers">
-          {items.filter(item=>item.title.toLowerCase().includes(searchValue)).map((item,index) => (
-            <Card
-              key={index}
-              title={item.title}
-              price={item.price}
-              imageUrl={item.imageUrl}
-              onFavorite={onAddToFavorite}
-              onPlus={(obj)=> onAddToCart(obj)}
-            />
-          ))}
-
-        </div>
-
-      </div>
     </div >
   );
 }
