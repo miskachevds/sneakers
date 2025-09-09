@@ -1,7 +1,7 @@
 import Card from '../components/card/Card';
 
 
-function Favorites(){
+function Favorites({items}){
     return(
         <div className="content">
 
@@ -11,7 +11,16 @@ function Favorites(){
         </div>
 
         <div className="sneakers">
-          <h2>Тут будут мои закладки</h2>
+          <h3>Здесь должны быть карточки кроссовок</h3>
+          {items.map((item, index) => (
+                      <Card
+                        key={index}
+                        title={item.title}
+                        price={item.price}
+                        imageUrl={item.imageUrl}
+                        favorited={true}
+                      />
+                    ))}
 
         </div>
 

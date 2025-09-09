@@ -2,9 +2,9 @@ import './Card.css'
 import React from 'react';
 import { useState } from 'react';
 
-function Card({title,imageUrl,price,onFavorite,onPlus}) {
+function Card({title,imageUrl,price,onFavorite,onPlus,favorited = false}) {
     const[isAdded, setIsAdded] = useState(false);
-    const[isFavorite, setIsFavorite] = useState(false);
+    const[isFavorite, setIsFavorite] = useState(favorited);
 
     const onClickPlus = ()=>{
         onPlus({title,imageUrl,price});
