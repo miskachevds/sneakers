@@ -58,6 +58,7 @@ function App() {
   const [favorites, setFavorites] = useState([])//карты доб в корзине
   const [searchValue, setSearchValue] = useState('')//поиск
   const [cardOpened, setCardOpened] = useState(false)//открытие и закрытие корзины
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     // fetch('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then((res)=> {
@@ -65,13 +66,14 @@ function App() {
     // }).then((json)=>{
     //   setItems(json);
     // })
-
+    
     axios.get('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then(response => {
       setItems(response.data);
     })
     axios.get('https://68b190d7a860fe41fd5ee2d7.mockapi.io/items').then(response => {
       setCardItems(response.data);
     })
+    setIsLoading(false);
 
   }, []);
 
@@ -99,13 +101,16 @@ function App() {
       {cardOpened && <Drawer items={cardItems} onClose={() => setCardOpened(false)} onRemove={onRemoveItem} />}
       <Header onClickCard={() => setCardOpened(true)} />
       <Routes>
-        <Route path='/' element={<Home items={items}
-          searchValue={searchValue} setSearchValue={setSearchValue} 
-          onChangeSearchInput={onChangeSearchInput} 
-          onAddToFavorite={onAddToFavorite}
-          onAddToCart={onAddToCart}
+        <Route path='/' element={
+          <Home
+            items={items}
+            searchValue={searchValue} setSearchValue={setSearchValue}
+            onChangeSearchInput={onChangeSearchInput}
+            onAddToFavorite={onAddToFavorite}
+            onAddToCart={onAddToCart}
+            isLoading={isLoading}
           />} />
-        <Route path='/favorites' element={<Favorites items={favorites}/>} />
+        <Route path='/favorites' element={<Favorites items={favorites} />} />
       </Routes>
 
 
