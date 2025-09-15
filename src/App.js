@@ -7,7 +7,9 @@ import axios from 'axios'
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Favorites from './pages/Favorites';
+import AppContext from './context';
 
+// export const AppContext = React.createContext({}); 
 
 // const arr = [
 //   {
@@ -51,7 +53,7 @@ import Favorites from './pages/Favorites';
 //     "imageUrl": "img/sneakers/8.jpg"
 //   }
 // ]
-
+  
 function App() {
   const [items, setItems] = useState([])//для загрузки карточек
   const [cardItems, setCardItems] = useState([])//карты доб в корзине
@@ -97,6 +99,7 @@ function App() {
   }
 
   return (
+    <AppContext.Provider value={{items, cardItems, favorites}}>
     <div className="wrapper">
       {cardOpened && <Drawer items={cardItems} onClose={() => setCardOpened(false)} onRemove={onRemoveItem} />}
       <Header onClickCard={() => setCardOpened(true)} />
@@ -112,9 +115,8 @@ function App() {
           />} />
         <Route path='/favorites' element={<Favorites items={favorites} />} />
       </Routes>
-
-
     </div >
+    </AppContext.Provider>
   );
 }
 export default App;

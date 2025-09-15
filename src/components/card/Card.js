@@ -13,7 +13,7 @@ function Card({
     added = false,
     loading = false
 }) {
-    const [isAdded, setIsAdded] = useState(false);
+    const [isAdded, setIsAdded] = useState(added);
     const [isFavorite, setIsFavorite] = useState(favorited);
 
     const onClickPlus = () => {
