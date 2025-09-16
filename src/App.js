@@ -98,8 +98,12 @@ function App() {
     setSearchValue(event.target.value)
   }
 
+  const isItemAdded = (id) =>{
+    return cardItems.some((obj) => Number(obj.id ) === Number(id));
+  }
+
   return (
-    <AppContext.Provider value={{items, cardItems, favorites}}>
+    <AppContext.Provider value={{items, cardItems, favorites, isItemAdded}}>
     <div className="wrapper">
       {cardOpened && <Drawer items={cardItems} onClose={() => setCardOpened(false)} onRemove={onRemoveItem} />}
       <Header onClickCard={() => setCardOpened(true)} />
@@ -107,6 +111,7 @@ function App() {
         <Route path='/' element={
           <Home
             items={items}
+            // cartItems={cartItems}
             searchValue={searchValue} setSearchValue={setSearchValue}
             onChangeSearchInput={onChangeSearchInput}
             onAddToFavorite={onAddToFavorite}
