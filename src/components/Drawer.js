@@ -48,6 +48,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
 
 
             </div>
+            
         </div>
 
     )
